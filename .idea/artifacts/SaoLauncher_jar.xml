@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="SaoLauncher:jar">
+    <output-path>$PROJECT_DIR$/classes/artifacts/SaoLauncher_jar</output-path>
+    <root id="archive" name="SaoLauncher.jar">
+      <element id="module-output" name="SaoLauncher" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/openlauncherlib-3.0.4.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/s-update-3.1.0-BETA.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/openauth-1.0.4.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/swinger-1.0.0-BETA.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
