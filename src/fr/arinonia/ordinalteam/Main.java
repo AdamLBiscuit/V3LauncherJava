@@ -1,9 +1,10 @@
 package fr.arinonia.ordinalteam;
 
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
+import fr.adam.saofrancelauncher.Accueil;
 import fr.adam.saofrancelauncher.SAOFrancePanel;
+import fr.adam.saofrancelauncher.SAOFrancePanelV2;
 import fr.adam.saofrancelauncher.SAOFranceUtils;
 import fr.theshark34.swinger.Swinger;
 import fr.theshark34.swinger.util.WindowMover;
@@ -12,6 +13,9 @@ public class Main extends JFrame {
 
 	private static Main instance;
 	private static SAOFrancePanel panel;
+	private static SAOFrancePanelV2 panelV2;
+	private static Accueil accueil;
+
 	
 	public Main() {
 		this.setTitle("SAOFrance Launcher");
@@ -19,13 +23,25 @@ public class Main extends JFrame {
 		this.setUndecorated(true);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.setContentPane(panel = new SAOFrancePanel());
+		setAccueil();
 		
 		WindowMover move = new WindowMover(this);
         this.addMouseListener(move);
         this.addMouseMotionListener(move);
-		
+
 		this.setVisible(true);
+	}
+
+	public void setPanel(){
+		this.setContentPane(panel = new SAOFrancePanel(this));
+	}
+
+	public void setPanelV2(){
+		this.setContentPane(panelV2 = new SAOFrancePanelV2(this));
+	}
+
+	public void setAccueil(){
+		this.setContentPane(accueil = new Accueil(this));
 	}
 	
 	public static void main(String[] args) {
@@ -38,6 +54,8 @@ public class Main extends JFrame {
 		if(!SAOFranceUtils.SAO_DIR.exists()) {
 			SAOFranceUtils.SAO_DIR.mkdir();
 		}
+
+
 		
 		if(!getPanel().ramFile.exists()) {
 			try {

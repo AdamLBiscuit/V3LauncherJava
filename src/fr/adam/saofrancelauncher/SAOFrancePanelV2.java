@@ -13,15 +13,15 @@ import fr.theshark34.swinger.textured.STexturedButton;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
-import java.io.IOException;
 import java.net.URI;
 
-public class SAOFrancePanel extends JPanel implements SwingerEventListener {
+public class SAOFrancePanelV2 extends JPanel implements SwingerEventListener {
+
+    //private final Image background = Swinger.getResource("back.png");
 
     public static File saverFile = new File(SAOFranceUtils.SAO_DIR, "launcher.properties");
     public static Saver saver = new Saver(saverFile);
     public static File ramFile = new File(SAOFranceUtils.SAO_DIR, "ram.txt");
-    private final Image background = Swinger.getResource("back.png");
     private final JTextField usernameField = new JTextField(saver.get("username"));
     private final JPasswordField passwordField = new JPasswordField(saver.get("password"));
     private final STexturedButton discordButton = new STexturedButton(Swinger.getResource("discord.png"), Swinger.getResource("discord.png"), Swinger.getResource("discord.png"));
@@ -30,20 +30,16 @@ public class SAOFrancePanel extends JPanel implements SwingerEventListener {
     private final STexturedButton playButton = new STexturedButton(Swinger.getResource("jouer1.png"), Swinger.getResource("jouer2.png"), Swinger.getResource("jouer1.png"));
     private final STexturedButton playButton2 = new STexturedButton(Swinger.getResource("jouer1lite.png"), Swinger.getResource("jouer2lite.png"), Swinger.getResource("jouer1lite.png"));
     private final STexturedButton playButton3 = new STexturedButton(Swinger.getResource("jouer1lite.png"), Swinger.getResource("jouer2lite.png"), Swinger.getResource("jouer1lite.png"));
-    private final STexturedButton menu = new STexturedButton(Swinger.getResource("header.png"), Swinger.getResource("header.png"), Swinger.getResource("header.png"));
-    private final STexturedButton homeButton = new STexturedButton(Swinger.getResource("menu.png"), Swinger.getResource("menu2.png"), Swinger.getResource("menu.png"));
-    private final STexturedButton playv3 = new STexturedButton(Swinger.getResource("v3normal.png"), Swinger.getResource("v3normal2.png"), Swinger.getResource("v3normal.png"));
-    private final SColoredBar progressBar = new SColoredBar(new Color(255, 0, 0, 85));
+    private final SColoredBar progressBar = new SColoredBar(new Color(0, 60, 180, 255));
     private final RamSelector ram = new RamSelector(ramFile);
     private final JLabel status = new JLabel("En attente d'une action");
     public Main main;
 
 
-    public SAOFrancePanel(Main main) {
+    public SAOFrancePanelV2(Main main) {
         this.main = main;
 
         setLayout(null);
-
         usernameField.setFont(new Font("sansserif", Font.BOLD, 18));
         usernameField.setForeground(new Color(105, 105, 105));
         usernameField.setOpaque(false);
@@ -51,7 +47,7 @@ public class SAOFrancePanel extends JPanel implements SwingerEventListener {
         usernameField.setBorder(null);
         add(usernameField);
 
-        passwordField.setFont(new Font("sansserif", Font.BOLD, 18));
+        passwordField.setFont(new Font("sansserif", Font.BOLD, 14));
         passwordField.setForeground(new Color(105, 105, 105));
         passwordField.setOpaque(false);
         passwordField.setBounds(226, 422, 228, 42);
@@ -96,17 +92,6 @@ public class SAOFrancePanel extends JPanel implements SwingerEventListener {
         add(status);
         status.setVisible(true);
 
-        homeButton.addEventListener(this);
-        homeButton.setBounds(10, 9, 187, 31);
-        add(homeButton);
-
-        playv3.addEventListener(this);
-        playv3.setBounds(550, 9, 187, 31);
-        add(playv3);
-
-        menu.setBounds(0, 0, 1280, 50);
-        add(menu);
-
     }
 
     @Override
@@ -129,7 +114,7 @@ public class SAOFrancePanel extends JPanel implements SwingerEventListener {
         }
 
         if (e.getSource() == playButton3) {
-            this.main.setPanelV2();
+            this.main.setPanel();
             this.main.invalidate();
             this.main.validate();
             this.main.repaint();
@@ -145,12 +130,12 @@ public class SAOFrancePanel extends JPanel implements SwingerEventListener {
                     } catch (AuthenticationException e2) {
                         e2.printStackTrace();
                         setFieldEnabled(true);
-                        JOptionPane.showMessageDialog(null, "Une erreur est survenue durant l'auth à mojang", "Erreur", 0, null);
+                        JOptionPane.showMessageDialog(null, "Une erreur est survenue durant l'auth Ã  mojang", "Erreur", 0, null);
                         playButton.setEnabled(true);
                         return;
                     }
 
-                    status.setText("Vérifications des fichers en cours...");
+                    status.setText("VÃ©rifications des fichers en cours...");
                     ram.save();
                     saver.set("username", usernameField.getText());
                     saver.set("password", passwordField.getText());
@@ -174,7 +159,7 @@ public class SAOFrancePanel extends JPanel implements SwingerEventListener {
                     }
                 }
 
-			};
+            };
             thread.start();
         }
 
@@ -189,12 +174,12 @@ public class SAOFrancePanel extends JPanel implements SwingerEventListener {
                     } catch (AuthenticationException e2) {
                         e2.printStackTrace();
                         setFieldEnabled(true);
-                        JOptionPane.showMessageDialog(null, "Une erreur est survenue durant l'auth à mojang", "Erreur", 0, null);
+                        JOptionPane.showMessageDialog(null, "Une erreur est survenue durant l'auth Ã  mojang", "Erreur", 0, null);
                         playButton.setEnabled(true);
                         return;
                     }
 
-                    status.setText("Vérifications des fichers en cours...");
+                    status.setText("VÃ©rifications des fichers en cours...");
                     ram.save();
                     saver.set("username", usernameField.getText());
                     saver.set("password", passwordField.getText());
@@ -218,21 +203,8 @@ public class SAOFrancePanel extends JPanel implements SwingerEventListener {
                     }
                 }
 
-			};
+            };
             thread.start();
-        }
-
-        if (e.getSource() == homeButton) {
-            this.main.setAccueil();
-            this.main.invalidate();
-            this.main.validate();
-            this.main.repaint();
-        }
-        if (e.getSource() == playv3) {
-            this.main.setPanel();
-            this.main.invalidate();
-            this.main.validate();
-            this.main.repaint();
         }
     }
 
@@ -240,7 +212,7 @@ public class SAOFrancePanel extends JPanel implements SwingerEventListener {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        Swinger.drawFullsizedImage(g, this, background);
+        //Swinger.drawFullsizedImage(g, this, background);
     }
 
     public SColoredBar getProgressBar() {
