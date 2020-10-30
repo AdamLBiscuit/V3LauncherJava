@@ -1,14 +1,12 @@
 package fr.adam.saofrancelauncher;
 
 import fr.arinonia.ordinalteam.Main;
-import fr.theshark34.openlauncherlib.util.Saver;
 import fr.theshark34.openlauncherlib.util.ramselector.RamSelector;
 import fr.theshark34.swinger.Swinger;
 import fr.theshark34.swinger.event.SwingerEvent;
 import fr.theshark34.swinger.event.SwingerEventListener;
 import fr.theshark34.swinger.textured.STexturedButton;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -17,11 +15,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Scanner;
 
-public class Accueil extends JPanel implements SwingerEventListener {
+public class AccueilPanel extends JPanel implements SwingerEventListener {
 
-    private static final BufferedImage NEWS_PIC = getImage();
-    public static File saverFile = new File(SAOFranceUtils.SAO_DIR, "launcher.properties");
-    public static Saver saver = new Saver(saverFile);
     public static File ramFile = new File(SAOFranceUtils.SAO_DIR, "ram.txt");
     private final STexturedButton ramButton = new STexturedButton(Swinger.getResource("settings_button.png"), Swinger.getResource("settings_button_hover.png"), Swinger.getResource("settings_button.png"));
     private final STexturedButton quitButton = new STexturedButton(Swinger.getResource("quit2.png"), Swinger.getResource("quit.png"), Swinger.getResource("quit2.png"));
@@ -37,7 +32,7 @@ public class Accueil extends JPanel implements SwingerEventListener {
     float alpha = 0;
 
 
-    public Accueil(Main main) {
+    public AccueilPanel(Main main) {
 
         this.main = main;
 
@@ -93,17 +88,6 @@ public class Accueil extends JPanel implements SwingerEventListener {
         URL img = getClass().getResource("/fr/adam/saofrancelauncher/ressources/loader.gif");
         this.loadingIcon = new ImageIcon(img).getImage();
 
-    }
-
-    public static BufferedImage getImage() {
-        BufferedImage image = null;
-        try {
-            URL url = new URL("https://launcher.saofrance-mc.net/test.png");
-            image = ImageIO.read(url);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return image;
     }
 
     public void enableAll(boolean enable) {
@@ -200,23 +184,12 @@ public class Accueil extends JPanel implements SwingerEventListener {
 
         this.repaint();
     }
-    public RamSelector getProps() {
-        return ram;
-    }
-    private void setFieldEnabled(boolean enabled) {
-        quitButton.setEnabled(enabled);
-        ramButton.setEnabled(enabled);
-    }
     private String news() {
         try {
             URL url = new URL("https://launcher.saofrance-mc.net/news/news.txt");
             Scanner scanner = new Scanner(url.openStream());
+                return scanner.nextLine();
 
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                return line;
-            }
-            return "Impossible de récupérer les news";
         } catch (IOException ex) {
             return "Impossible de récupérer les news";
         }
@@ -228,11 +201,8 @@ public class Accueil extends JPanel implements SwingerEventListener {
             URL url = new URL("https://launcher.saofrance-mc.net/news/newsTitle.txt");
             Scanner scanner = new Scanner(url.openStream());
 
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                return line;
-            }
-            return "Impossible de récupérer les news";
+            return scanner.nextLine();
+
         } catch (IOException ex) {
             return "Impossible de récupérer les news";
         }

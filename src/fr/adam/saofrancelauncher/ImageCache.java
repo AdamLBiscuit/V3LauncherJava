@@ -40,13 +40,10 @@ public class ImageCache {
         }
         return defaultImage;
     }
-
     public static BufferedImage getImage(String url) {
         return getImage(url, DEFAULT_IMAGE);
     }
-
     public static long getDownloadedTime(String url) {
         return DOWNLOADED_TIMES.get(url);
     }
-
 }

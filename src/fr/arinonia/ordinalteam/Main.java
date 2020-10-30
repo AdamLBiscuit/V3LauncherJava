@@ -11,7 +11,7 @@ public class Main extends JFrame {
     private static Main instance;
     private static SAOFrancePanel panel;
     private static SAOFrancePanelV2 panelV2;
-    private static Accueil accueil;
+    private static AccueilPanel accueilPanel;
     private static OptionsPanel optionsPanel;
 
 
@@ -83,7 +83,7 @@ public class Main extends JFrame {
     }
 
     public void setAccueil() {
-        this.setContentPane(accueil = new Accueil(this));
+        this.setContentPane(accueilPanel = new AccueilPanel(this));
     }
 
     public void setOptionsPanel(){

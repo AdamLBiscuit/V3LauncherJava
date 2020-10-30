@@ -27,11 +27,8 @@ public class SAOFranceUtils {
     public static final File SAO_DIR = SAO_INFOS.getGameDir();
     public static final File SAO_DIR2 = SAO_INFOS2.getGameDir();
     public static final File SAO_CRASH_DIR = new File(SAO_DIR, "crashes");
-
-    private static AuthInfos authInfos;
-
     private static final CrashReporter crashReporter = new CrashReporter("SAOFrance Launcher", SAO_CRASH_DIR);
-
+    private static AuthInfos authInfos;
     private static Thread update;
     private static Thread update2;
 
