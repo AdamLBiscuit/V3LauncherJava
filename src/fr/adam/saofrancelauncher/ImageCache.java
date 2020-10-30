@@ -18,20 +18,13 @@ public class ImageCache {
 
     private static final ExecutorService SERVICE = Executors.newFixedThreadPool(1);
 
-    private static BufferedImage getImage(String url, BufferedImage defaultImage)
-    {
-        if(CACHE.containsKey(url))
-        {
+    private static BufferedImage getImage(String url, BufferedImage defaultImage) {
+        if (CACHE.containsKey(url)) {
             return CACHE.get(url);
-        }
-        else
-        {
-            if(IS_DOWNLOADING.getOrDefault(url, false))
-            {
+        } else {
+            if (IS_DOWNLOADING.getOrDefault(url, false)) {
                 return defaultImage;
-            }
-            else
-            {
+            } else {
                 IS_DOWNLOADING.put(url, true);
                 SERVICE.execute(() -> {
                     try {
@@ -48,13 +41,11 @@ public class ImageCache {
         return defaultImage;
     }
 
-    public static BufferedImage getImage(String url)
-    {
+    public static BufferedImage getImage(String url) {
         return getImage(url, DEFAULT_IMAGE);
     }
 
-    public static long getDownloadedTime(String url)
-    {
+    public static long getDownloadedTime(String url) {
         return DOWNLOADED_TIMES.get(url);
     }
 
