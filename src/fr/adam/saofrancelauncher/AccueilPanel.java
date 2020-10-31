@@ -137,7 +137,7 @@ public class AccueilPanel extends JPanel implements SwingerEventListener {
 
         Swinger.drawFullsizedImage(g, this, background);
 
-        String url = "https://launcher.saofrance-mc.net/test.png";
+        String url = "https://launcher.saofrance-mc.net/test.jpg";
         BufferedImage img = ImageCache.getImage(url);
 
         if (g instanceof Graphics2D) {

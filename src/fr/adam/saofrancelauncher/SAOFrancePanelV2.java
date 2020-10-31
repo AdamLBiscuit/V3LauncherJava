@@ -17,7 +17,7 @@ import java.net.URI;
 
 public class SAOFrancePanelV2 extends JPanel implements SwingerEventListener {
 
-    //private final Image background = Swinger.getResource("back.png");
+    private final Image background = Swinger.getResource("back.png");
 
     public static File saverFile = new File(SAOFranceUtils.SAO_DIR, "launcher.properties");
     public static Saver saver = new Saver(saverFile);
@@ -212,7 +212,7 @@ public class SAOFrancePanelV2 extends JPanel implements SwingerEventListener {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        //Swinger.drawFullsizedImage(g, this, background);
+        Swinger.drawFullsizedImage(g, this, background);
     }
 
     public SColoredBar getProgressBar() {
