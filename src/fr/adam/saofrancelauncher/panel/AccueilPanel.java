@@ -1,8 +1,11 @@
-package fr.adam.saofrancelauncher;
+package fr.adam.saofrancelauncher.panel;
 
+import fr.adam.saofrancelauncher.utils.ImageCache;
+import fr.adam.saofrancelauncher.utils.SAOFranceUtils;
 import fr.arinonia.ordinalteam.Main;
 import fr.theshark34.openlauncherlib.util.ramselector.RamSelector;
 import fr.theshark34.swinger.Swinger;
+import fr.theshark34.swinger.colored.SColoredBar;
 import fr.theshark34.swinger.event.SwingerEvent;
 import fr.theshark34.swinger.event.SwingerEventListener;
 import fr.theshark34.swinger.textured.STexturedButton;
@@ -27,6 +30,7 @@ public class AccueilPanel extends JPanel implements SwingerEventListener {
     private final RamSelector ram = new RamSelector(ramFile);
     private final JTextArea news;
     private final JLabel newsTitle;
+    private final SColoredBar progressBar = new SColoredBar(new Color(255, 0, 0, 85));
     public Main main;
     Image loadingIcon;
     float alpha = 0;
@@ -88,6 +92,14 @@ public class AccueilPanel extends JPanel implements SwingerEventListener {
         URL img = getClass().getResource("/fr/adam/saofrancelauncher/ressources/loader.gif");
         this.loadingIcon = new ImageIcon(img).getImage();
 
+        progressBar.setBounds(0, 705, 1280, 15);
+        add(progressBar);
+        progressBar.setVisible(false);
+
+    }
+
+    public void setBarVisible(boolean enable) {
+        progressBar.setVisible(enable);
     }
 
     public void enableAll(boolean enable) {
@@ -117,7 +129,7 @@ public class AccueilPanel extends JPanel implements SwingerEventListener {
             this.main.repaint();
         }
         if (e.getSource() == playv3) {
-            this.main.setPanel();
+            this.main.setPlay();
             this.main.invalidate();
             this.main.validate();
             this.main.repaint();
@@ -173,22 +185,23 @@ public class AccueilPanel extends JPanel implements SwingerEventListener {
                 g.setColor(Color.BLACK);
                 g.fillRect(0, 0, getWidth(), getHeight());
             }
-                Composite oldComposite = g2d.getComposite();
-                AlphaComposite nC = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1 - this.alpha);
-                g2d.setComposite(nC);
+            Composite oldComposite = g2d.getComposite();
+            AlphaComposite nC = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1 - this.alpha);
+            g2d.setComposite(nC);
 
-                g.drawImage(this.loadingIcon, getWidth() / 2 - 180, getHeight() / 2 - 100, 180 * 2, 200, this);
-                g2d.setComposite(oldComposite);
+            g.drawImage(this.loadingIcon, getWidth() / 2 - 180, getHeight() / 2 - 100, 180 * 2, 200, this);
+            g2d.setComposite(oldComposite);
         }
         enableAll(img != ImageCache.DEFAULT_IMAGE);
 
         this.repaint();
     }
+
     private String news() {
         try {
             URL url = new URL("https://launcher.saofrance-mc.net/news/news.txt");
             Scanner scanner = new Scanner(url.openStream());
-                return scanner.nextLine();
+            return scanner.nextLine();
 
         } catch (IOException ex) {
             return "Impossible de récupérer les news";
@@ -206,5 +219,9 @@ public class AccueilPanel extends JPanel implements SwingerEventListener {
         } catch (IOException ex) {
             return "Impossible de récupérer les news";
         }
+    }
+
+    public SColoredBar getProgressBar() {
+        return progressBar;
     }
 }

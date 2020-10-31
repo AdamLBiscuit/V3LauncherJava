@@ -1,4 +1,4 @@
-package fr.adam.saofrancelauncher;
+package fr.adam.saofrancelauncher.utils;
 
 import fr.arinonia.ordinalteam.Main;
 import fr.litarvan.openauth.AuthPoints;
@@ -56,11 +56,22 @@ public class SAOFranceUtils {
                     if (BarAPI.getNumberOfFileToDownload() == 0) {
 
                     } else {
-                        Main.getPanel().setStatus("Telechargement des fichers : " + val / 1000 + " / " + max / 1000 + "Mo");
+
+                        Main.getAccueilPanel().setBarVisible(true);
+                        Main.getOptionsPanel().setBarVisible(true);
+                        Main.getPlayPanel().setBarVisible(true);
+
+                        Main.getPlayPanel().setStatus("Telechargement des fichers : " + val / 1000 + " / " + max / 1000 + "Mo");
                         val = (int) (BarAPI.getNumberOfTotalDownloadedBytes() / 1000);
                         max = (int) (BarAPI.getNumberOfTotalBytesToDownload() / 1000);
-                        Main.getPanel().getProgressBar().setValue(val);
-                        Main.getPanel().getProgressBar().setMaximum(max);
+                        Main.getPlayPanel().getProgressBar().setValue(val);
+                        Main.getPlayPanel().getProgressBar().setMaximum(max);
+
+                        Main.getOptionsPanel().getProgressBar().setValue(val);
+                        Main.getOptionsPanel().getProgressBar().setMaximum(max);
+
+                        Main.getAccueilPanel().getProgressBar().setValue(val);
+                        Main.getAccueilPanel().getProgressBar().setMaximum(max);
                     }
                 }
             }
@@ -87,11 +98,22 @@ public class SAOFranceUtils {
                     if (BarAPI.getNumberOfFileToDownload() == 0) {
 
                     } else {
-                        Main.getPanel().setStatus("Telechargement des fichers : " + val / 1000 + " / " + max / 1000 + "Mo");
+
+                        Main.getAccueilPanel().setBarVisible(true);
+                        Main.getOptionsPanel().setBarVisible(true);
+                        Main.getPlayPanel().setBarVisible(true);
+
+                        Main.getPlayPanel().setStatus("Telechargement des fichers : " + val / 1000 + " / " + max / 1000 + "Mo");
                         val = (int) (BarAPI.getNumberOfTotalDownloadedBytes() / 1000);
                         max = (int) (BarAPI.getNumberOfTotalBytesToDownload() / 1000);
-                        Main.getPanel().getProgressBar().setValue(val);
-                        Main.getPanel().getProgressBar().setMaximum(max);
+                        Main.getPlayPanel().getProgressBar().setValue(val);
+                        Main.getPlayPanel().getProgressBar().setMaximum(max);
+
+                        Main.getOptionsPanel().getProgressBar().setValue(val);
+                        Main.getOptionsPanel().getProgressBar().setMaximum(max);
+
+                        Main.getAccueilPanel().getProgressBar().setValue(val);
+                        Main.getAccueilPanel().getProgressBar().setMaximum(max);
                     }
                 }
             }
@@ -102,20 +124,19 @@ public class SAOFranceUtils {
 
     }
 
-
     public static void launch(String username) throws LaunchException {
         String java = System.getProperty("sun.arch.data.model");
         String javaVersion = System.getProperty("java.version");
         ExternalLaunchProfile profile = MinecraftLauncher.createExternalProfile(SAO_INFOS, GameFolder.BASIC, authInfos);
         if (java.equals("64"))
-            profile.getVmArgs().addAll(Arrays.asList(Main.getPanel().getProps().getRamArguments()));
+            profile.getVmArgs().addAll(Arrays.asList(Main.getPlayPanel().getProps().getRamArguments()));
         ExternalLauncher launcher = new ExternalLauncher(profile);
 
         Process p = launcher.launch();
 
         if (!javaVersion.contains("1.8")) {
 
-            JOptionPane.showMessageDialog(Main.getPanel(), "Attention, vous n'etes pas sous Java 8. Vous risquez d'avoir des problemes au lancement.");
+            JOptionPane.showMessageDialog(Main.getPlayPanel(), "Attention, vous n'etes pas sous Java 8. Vous risquez d'avoir des problemes au lancement.");
         }
         try {
             Thread.sleep(5000L);
@@ -133,14 +154,14 @@ public class SAOFranceUtils {
         String javaVersion = System.getProperty("java.version");
         ExternalLaunchProfile profile = MinecraftLauncher.createExternalProfile(SAO_INFOS2, GameFolder.BASIC, authInfos);
         if (java.equals("64"))
-            profile.getVmArgs().addAll(Arrays.asList(Main.getPanel().getProps().getRamArguments()));
+            profile.getVmArgs().addAll(Arrays.asList(Main.getPlayPanel().getProps().getRamArguments()));
         ExternalLauncher launcher = new ExternalLauncher(profile);
 
         Process p = launcher.launch();
 
         if (!javaVersion.contains("1.8")) {
 
-            JOptionPane.showMessageDialog(Main.getPanel(), "Attention, vous n'etes pas sous Java 8. Vous risquez d'avoir des problemes au lancement.");
+            JOptionPane.showMessageDialog(Main.getPlayPanel(), "Attention, vous n'etes pas sous Java 8. Vous risquez d'avoir des problemes au lancement.");
         }
 
         try {

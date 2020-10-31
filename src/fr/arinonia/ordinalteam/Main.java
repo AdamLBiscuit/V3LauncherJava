@@ -1,6 +1,12 @@
 package fr.arinonia.ordinalteam;
 
-import fr.adam.saofrancelauncher.*;
+import club.minnced.discord.rpc.DiscordEventHandlers;
+import club.minnced.discord.rpc.DiscordRPC;
+import club.minnced.discord.rpc.DiscordRichPresence;
+import fr.adam.saofrancelauncher.panel.PlayPanel;
+import fr.adam.saofrancelauncher.panel.AccueilPanel;
+import fr.adam.saofrancelauncher.panel.OptionsPanel;
+import fr.adam.saofrancelauncher.utils.SAOFranceUtils;
 import fr.theshark34.swinger.Swinger;
 import fr.theshark34.swinger.util.WindowMover;
 
@@ -9,8 +15,7 @@ import javax.swing.*;
 public class Main extends JFrame {
 
     private static Main instance;
-    private static SAOFrancePanel panel;
-    private static SAOFrancePanelV2 panelV2;
+    private static PlayPanel panel;
     private static AccueilPanel accueilPanel;
     private static OptionsPanel optionsPanel;
 
@@ -30,6 +35,7 @@ public class Main extends JFrame {
         this.setVisible(true);
     }
 
+
     public static void main(String[] args) {
         Swinger.setSystemLookNFeel();
         Swinger.setResourcePath("/fr/adam/saofrancelauncher/ressources/");
@@ -42,17 +48,17 @@ public class Main extends JFrame {
         }
 
 
-        if (!SAOFrancePanel.ramFile.exists()) {
+        if (!PlayPanel.ramFile.exists()) {
             try {
-                SAOFrancePanel.ramFile.createNewFile();
+                PlayPanel.ramFile.createNewFile();
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
-        if (!SAOFrancePanel.saverFile.exists()) {
+        if (!PlayPanel.saverFile.exists()) {
             try {
-                SAOFrancePanel.saverFile.createNewFile();
+                PlayPanel.saverFile.createNewFile();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -70,23 +76,27 @@ public class Main extends JFrame {
         return instance;
     }
 
-    public static SAOFrancePanel getPanel() {
+    public static PlayPanel getPlayPanel() {
         return panel;
     }
 
-    public void setPanel() {
-        this.setContentPane(panel = new SAOFrancePanel(this));
+    public static AccueilPanel getAccueilPanel() {
+        return accueilPanel;
     }
 
-    public void setPanelV2() {
-        this.setContentPane(panelV2 = new SAOFrancePanelV2(this));
+    public static OptionsPanel getOptionsPanel() {
+        return optionsPanel;
+    }
+
+    public void setPlay() {
+        this.setContentPane(panel = new PlayPanel(this));
     }
 
     public void setAccueil() {
         this.setContentPane(accueilPanel = new AccueilPanel(this));
     }
 
-    public void setOptionsPanel(){
-    	this.setContentPane(optionsPanel = new OptionsPanel(this));
-	}
+    public void setOptionsPanel() {
+        this.setContentPane(optionsPanel = new OptionsPanel(this));
+    }
 }
