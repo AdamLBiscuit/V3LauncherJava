@@ -57,19 +57,20 @@ public class SAOFranceUtils {
 
                     } else {
 
-                        Main.getAccueilPanel().setBarVisible(true);
-                        Main.getOptionsPanel().setBarVisible(true);
-                        Main.getPlayPanel().setBarVisible(true);
-
-                        Main.getPlayPanel().setStatus("Telechargement des fichers : " + val / 1000 + " / " + max / 1000 + "Mo");
                         val = (int) (BarAPI.getNumberOfTotalDownloadedBytes() / 1000);
                         max = (int) (BarAPI.getNumberOfTotalBytesToDownload() / 1000);
+
+                        Main.getPlayPanel().setStatus("Telechargement des fichers : " + val / 1000 + " / " + max / 1000 + "Mo");
+
+                        Main.getPlayPanel().setBarVisible(true);
                         Main.getPlayPanel().getProgressBar().setValue(val);
                         Main.getPlayPanel().getProgressBar().setMaximum(max);
 
+                        Main.getOptionsPanel().setBarVisible(true);
                         Main.getOptionsPanel().getProgressBar().setValue(val);
                         Main.getOptionsPanel().getProgressBar().setMaximum(max);
 
+                        Main.getAccueilPanel().setBarVisible(true);
                         Main.getAccueilPanel().getProgressBar().setValue(val);
                         Main.getAccueilPanel().getProgressBar().setMaximum(max);
                     }
@@ -104,6 +105,7 @@ public class SAOFranceUtils {
                         Main.getPlayPanel().setBarVisible(true);
 
                         Main.getPlayPanel().setStatus("Telechargement des fichers : " + val / 1000 + " / " + max / 1000 + "Mo");
+
                         val = (int) (BarAPI.getNumberOfTotalDownloadedBytes() / 1000);
                         max = (int) (BarAPI.getNumberOfTotalBytesToDownload() / 1000);
                         Main.getPlayPanel().getProgressBar().setValue(val);

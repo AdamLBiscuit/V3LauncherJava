@@ -5,6 +5,7 @@ import fr.adam.saofrancelauncher.utils.SAOFranceUtils;
 import fr.arinonia.ordinalteam.Main;
 import fr.theshark34.openlauncherlib.util.ramselector.RamSelector;
 import fr.theshark34.swinger.Swinger;
+import fr.theshark34.swinger.animation.Animator;
 import fr.theshark34.swinger.colored.SColoredBar;
 import fr.theshark34.swinger.event.SwingerEvent;
 import fr.theshark34.swinger.event.SwingerEventListener;
@@ -21,13 +22,11 @@ import java.util.Scanner;
 public class AccueilPanel extends JPanel implements SwingerEventListener {
 
     public static File ramFile = new File(SAOFranceUtils.SAO_DIR, "ram.txt");
-    //private final STexturedButton ramButton = new STexturedButton(Swinger.getResource("News/Option.png"), Swinger.getResource("News/Option.png"), Swinger.getResource("News/Option.png"));
     private final STexturedButton quitButton = new STexturedButton(Swinger.getResource("News/deco.png"), Swinger.getResource("News/decoHold.png"), Swinger.getResource("News/deco.png"));
     private final STexturedButton homeButton = new STexturedButton(Swinger.getResource("News/NewsHold.png"), Swinger.getResource("News/NewsHold.png"), Swinger.getResource("News/NewsHold.png"));
     private final STexturedButton playv3 = new STexturedButton(Swinger.getResource("News/Play.png"), Swinger.getResource("News/PlayHold.png"), Swinger.getResource("News/Play.png"));
     private final STexturedButton optionPane = new STexturedButton(Swinger.getResource("News/Option.png"), Swinger.getResource("News/OptionHold.png"), Swinger.getResource("News/Option.png"));
-    private final Image background = Swinger.getResource("News/wallpaper.png");
-    //private final Image background = Swinger.getResource("Nouveautes.png");
+    private final Image background = Swinger.getResource("News/backgroundNews.png");
     private final RamSelector ram = new RamSelector(ramFile);
     private final JTextArea news;
     private final JLabel newsTitle;
@@ -67,10 +66,6 @@ public class AccueilPanel extends JPanel implements SwingerEventListener {
 
         setLayout(null);
 
-        /*ramButton.addEventListener(this);
-        ramButton.setBounds(1167, 97, Swinger.getResource("News/Option.png").getWidth(), Swinger.getResource("News/Option.png").getHeight());
-        add(ramButton);*/
-
         quitButton.addEventListener(this);
         quitButton.setBounds(489, 231, Swinger.getResource("News/deco.png").getWidth(), Swinger.getResource("News/deco.png").getHeight());
         add(quitButton);
@@ -97,6 +92,7 @@ public class AccueilPanel extends JPanel implements SwingerEventListener {
     }
 
     public void setBarVisible(boolean enable) {
+
         progressBar.setVisible(enable);
     }
 
@@ -112,14 +108,11 @@ public class AccueilPanel extends JPanel implements SwingerEventListener {
 
     public void onEvent(SwingerEvent e) {
         if (e.getSource() == quitButton) {
-            System.exit(0);
+            this.main.setQuit();
+            this.main.invalidate();
+            this.main.validate();
+            this.main.repaint();
         }
-
-        //if (e.getSource() == ramButton) {
-        //    ram.display();
-        //    ram.save();
-        //}
-
         if (e.getSource() == homeButton) {
             this.main.setAccueil();
             this.main.invalidate();
@@ -133,7 +126,7 @@ public class AccueilPanel extends JPanel implements SwingerEventListener {
             this.main.repaint();
         }
         if (e.getSource() == optionPane) {
-            this.main.setOptionsPanel();
+            this.main.setOption();
             this.main.invalidate();
             this.main.validate();
             this.main.repaint();
@@ -168,11 +161,6 @@ public class AccueilPanel extends JPanel implements SwingerEventListener {
                 g2d.setComposite(ac);
                 //g.drawImage(Swinger.getResource("header.png"), 0, 0, 1280, 50, this);
                 //g.drawImage(Swinger.getResource("News/TITRE.png"), 872, 279, Swinger.getResource("News/TITRE.png").getWidth(), Swinger.getResource("News/TITRE.png").getHeight(), this);
-                g.drawImage(Swinger.getResource("News/Rectangle1.png"), 562, 91, Swinger.getResource("News/Rectangle1.png").getWidth(), Swinger.getResource("News/Rectangle1.png").getHeight(), this);
-                g.drawImage(Swinger.getResource("News/Rectangle1-1.png"), 562, 241, Swinger.getResource("News/Rectangle1-1.png").getWidth(), Swinger.getResource("News/Rectangle1-1.png").getHeight(), this);
-                g.drawImage(Swinger.getResource("News/Nouveautes.png"), 747, 136, Swinger.getResource("News/Nouveautes.png").getWidth(), Swinger.getResource("News/Nouveautes.png").getHeight(), this);
-                g.drawImage(Swinger.getResource("News/theme_logo.png"), 50, 31, Swinger.getResource("News/theme_logo.png").getWidth(), Swinger.getResource("News/theme_logo.png").getHeight(), this);
-                g.drawImage(Swinger.getResource("Connexion/Rectangle3.png"), 541, 102, Swinger.getResource("Connexion/Rectangle3.png").getWidth(), Swinger.getResource("Connexion/Rectangle3.png").getHeight(), this);
 
 
                 g2d.drawImage(

@@ -1,6 +1,8 @@
 package fr.adam.saofrancelauncher.panel;
 
+import com.sun.management.OperatingSystemMXBean;
 import fr.arinonia.ordinalteam.Main;
+import fr.theshark34.openlauncherlib.util.ramselector.RamSelector;
 import fr.theshark34.swinger.Swinger;
 import fr.theshark34.swinger.colored.SColoredBar;
 import fr.theshark34.swinger.event.SwingerEvent;
@@ -9,43 +11,52 @@ import fr.theshark34.swinger.textured.STexturedButton;
 import org.apache.commons.io.FileUtils;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.lang.management.ManagementFactory;
 
-import static fr.adam.saofrancelauncher.utils.SAOFranceUtils.SAO_INFOS;
-import static fr.adam.saofrancelauncher.utils.SAOFranceUtils.SAO_INFOS2;
+import static fr.adam.saofrancelauncher.utils.SAOFranceUtils.*;
 
 public class OptionsPanel extends JPanel implements SwingerEventListener {
 
-    private final Image background = Swinger.getResource("optionwall.jpg");
-    private final STexturedButton homeButton = new STexturedButton(Swinger.getResource("menu.png"), Swinger.getResource("menu2.png"), Swinger.getResource("menu.png"));
-    private final STexturedButton playv3 = new STexturedButton(Swinger.getResource("v3normal.png"), Swinger.getResource("v3normal2.png"), Swinger.getResource("v3normal.png"));
-    private final STexturedButton optionPane = new STexturedButton(Swinger.getResource("options.png"), Swinger.getResource("options2.png"), Swinger.getResource("options.png"));
+    private final Image background = Swinger.getResource("news/backgroundOption.png");
     private final STexturedButton path = new STexturedButton(Swinger.getResource("options.png"), Swinger.getResource("options2.png"), Swinger.getResource("options.png"));
     private final STexturedButton clearLite = new STexturedButton(Swinger.getResource("options.png"), Swinger.getResource("options2.png"), Swinger.getResource("options.png"));
+
+    private final STexturedButton quitButton = new STexturedButton(Swinger.getResource("News/deco.png"), Swinger.getResource("News/decoHold.png"), Swinger.getResource("News/deco.png"));
+    private final STexturedButton homeButton = new STexturedButton(Swinger.getResource("Connexion/News.png"), Swinger.getResource("News/NewsHold.png"), Swinger.getResource("Connexion/News.png"));
+    private final STexturedButton playv3 = new STexturedButton(Swinger.getResource("News/Play.png"), Swinger.getResource("News/PlayHold.png"), Swinger.getResource("News/Play.png"));
+    private final STexturedButton optionPane = new STexturedButton(Swinger.getResource("News/OptionHold.png"), Swinger.getResource("News/OptionHold.png"), Swinger.getResource("News/OptionHold.png"));
     private final SColoredBar progressBar = new SColoredBar(new Color(255, 0, 0, 85));
+    private final JSlider slider = new JSlider(JSlider.HORIZONTAL, 2, 9, 2);
+
+    private JLabel label = new JLabel("Ram : " + getRam() + "Go");
 
     public Main main;
 
     public OptionsPanel(Main main) {
         this.main = main;
         setLayout(null);
-        homeButton.addEventListener(this);
-        homeButton.setBounds(10, 9, 187, 31);
-        add(homeButton);
-        homeButton.setVisible(true);
 
 
-        playv3.addEventListener(this);
-        playv3.setBounds(550, 9, 187, 31);
-        add(playv3);
-        playv3.setVisible(true);
+        slider.setValue(Integer.valueOf(getRam()));
+        slider.setMinorTickSpacing(1);
+        slider.setMajorTickSpacing(1);
+        slider.setBounds(700, 325, 300, 20);
+        slider.addChangeListener((ChangeEvent event) -> {
+            System.out.println(slider.getValue());
+            setRam(String.valueOf(slider.getValue()));
+            label.setText("Ram : " + slider.getValue() + "Go");
 
-        optionPane.addEventListener(this);
-        optionPane.setBounds(1087, 9, 187, 31);
-        add(optionPane);
-        optionPane.setVisible(true);
+        });
+        add(slider);
+
+        label.setFont(new Font("sansserif", Font.BOLD, 30));
+        label.setForeground(Color.GRAY);
+        label.setBounds(562, 240, 580, 50);
+        label.setHorizontalAlignment(JLabel.CENTER);
+        add(label);
 
         path.addEventListener(this);
         path.setBounds(500, 500, 187, 31);
@@ -61,6 +72,22 @@ public class OptionsPanel extends JPanel implements SwingerEventListener {
         add(progressBar);
         progressBar.setVisible(false);
 
+        homeButton.addEventListener(this);
+        homeButton.setBounds(489, 97, Swinger.getResource("News/NewsHold.png").getWidth(), Swinger.getResource("News/NewsHold.png").getHeight());
+        add(homeButton);
+
+        playv3.addEventListener(this);
+        playv3.setBounds(489, 164, Swinger.getResource("News/Play.png").getWidth(), Swinger.getResource("News/Play.png").getHeight());
+        add(playv3);
+
+        optionPane.addEventListener(this);
+        optionPane.setBounds(1167, 97, Swinger.getResource("News/Option.png").getWidth(), Swinger.getResource("News/Option.png").getHeight());
+        add(optionPane);
+
+        quitButton.addEventListener(this);
+        quitButton.setBounds(489, 231, Swinger.getResource("News/deco.png").getWidth(), Swinger.getResource("News/deco.png").getHeight());
+        add(quitButton);
+
     }
 
     public void setBarVisible(boolean enable) {
@@ -70,6 +97,12 @@ public class OptionsPanel extends JPanel implements SwingerEventListener {
     @Override
     public void onEvent(SwingerEvent e) {
 
+        if (e.getSource() == quitButton) {
+            this.main.setQuit();
+            this.main.invalidate();
+            this.main.validate();
+            this.main.repaint();
+        }
         if (e.getSource() == homeButton) {
             this.main.setAccueil();
             this.main.invalidate();
@@ -83,7 +116,7 @@ public class OptionsPanel extends JPanel implements SwingerEventListener {
             this.main.repaint();
         }
         if (e.getSource() == optionPane) {
-            this.main.setOptionsPanel();
+            this.main.setOption();
             this.main.invalidate();
             this.main.validate();
             this.main.repaint();
@@ -101,19 +134,51 @@ public class OptionsPanel extends JPanel implements SwingerEventListener {
                 FileUtils.deleteDirectory(file);
             } catch (IOException ioException) {
                 ioException.printStackTrace();
-            }
-            ;
+            };
         }
     }
 
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
         Swinger.drawFullsizedImage(g, this, background);
-        g.drawImage(Swinger.getResource("header.png"), 0, 0, 1280, 50, this);
     }
 
     public SColoredBar getProgressBar() {
         return progressBar;
     }
+
+    public static String getRam() {
+        int ram = 0;
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(new File(SAO_DIR, "ram.txt")));
+            String line;
+            while ((line = br.readLine()) != null) {
+                ram = Integer.parseInt(line);
+            }
+            br.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String str = Integer.toString(ram);
+        return str;
+    }
+
+    public static void setRam(String val) {
+        File ramfile = new File(SAO_DIR, "ram.txt");
+        if (!ramfile.exists()) {
+            try {
+                ramfile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            FileWriter rama = new FileWriter(new File(SAO_DIR, "ram.txt"));
+            rama.write(val);
+            rama.close();
+        } catch (Exception localException) {}
+    }
+
+
 }
+

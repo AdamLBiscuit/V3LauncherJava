@@ -5,6 +5,7 @@ import fr.arinonia.ordinalteam.Main;
 import fr.litarvan.openauth.AuthenticationException;
 import fr.theshark34.openlauncherlib.util.Saver;
 import fr.theshark34.openlauncherlib.util.ramselector.RamSelector;
+import fr.theshark34.supdate.BarAPI;
 import fr.theshark34.swinger.Swinger;
 import fr.theshark34.swinger.colored.SColoredBar;
 import fr.theshark34.swinger.event.SwingerEvent;
@@ -22,7 +23,7 @@ public class PlayPanel extends JPanel implements SwingerEventListener {
     public static Saver saver = new Saver(saverFile);
     public static File ramFile = new File(SAOFranceUtils.SAO_DIR, "ram.txt");
     //private final Image background = Swinger.getResource("connexion.png");
-    private final Image background = Swinger.getResource("Connexion/wallpaper.png");
+    private final Image background = Swinger.getResource("Connexion/backgroundLogin.png");
     private final JTextField usernameField = new JTextField(saver.get("username"));
     private final JPasswordField passwordField = new JPasswordField(saver.get("password"));
     private final STexturedButton discordButton = new STexturedButton(Swinger.getResource("discord.png"), Swinger.getResource("discord.png"), Swinger.getResource("discord.png"));
@@ -75,12 +76,13 @@ public class PlayPanel extends JPanel implements SwingerEventListener {
 
         progressBar.setBounds(0, 705, 1280, 15);
         add(progressBar);
-        progressBar.setVisible(false);
+        progressBar.setVisible(true);
 
         status.setFont(new Font("sansserif", Font.BOLD, 22));
         status.setForeground(Color.GRAY);
-        status.setBounds(562, 200, Swinger.getResource("Connexion/Rectangle1.png").getWidth(), 50);
+        status.setBounds(562, 200, 580, 50);
         status.setHorizontalAlignment(JLabel.CENTER);
+
 
         add(status);
         status.setVisible(true);
@@ -116,9 +118,6 @@ public class PlayPanel extends JPanel implements SwingerEventListener {
 
     @Override
     public void onEvent(SwingerEvent e) {
-        if (e.getSource() == quitButton || e.getSource() == croix) {
-            System.exit(0);
-        }
 
         if (e.getSource() == ramButton) {
             ram.display();
@@ -132,7 +131,6 @@ public class PlayPanel extends JPanel implements SwingerEventListener {
                 e1.printStackTrace();
             }
         }
-
 
         if (e.getSource() == playButton) {
             playButton.setEnabled(false);
@@ -149,7 +147,11 @@ public class PlayPanel extends JPanel implements SwingerEventListener {
                         return;
                     }
 
-                    status.setText("Vérifications des fichers en cours...");
+                    if(BarAPI.getNumberOfFileToDownload() !=0) {
+                        setStatus("download");
+                    } else {
+                        status.setText("Vérifications des fichers en cours...");
+                    }
                     ram.save();
                     saver.set("username", usernameField.getText());
                     saver.set("password", passwordField.getText());
@@ -221,6 +223,12 @@ public class PlayPanel extends JPanel implements SwingerEventListener {
             thread.start();
         }
 
+        if (e.getSource() == quitButton ||e.getSource() == croix) {
+            this.main.setQuit();
+            this.main.invalidate();
+            this.main.validate();
+            this.main.repaint();
+        }
         if (e.getSource() == homeButton) {
             this.main.setAccueil();
             this.main.invalidate();
@@ -234,7 +242,7 @@ public class PlayPanel extends JPanel implements SwingerEventListener {
             this.main.repaint();
         }
         if (e.getSource() == optionPane) {
-            this.main.setOptionsPanel();
+            this.main.setOption();
             this.main.invalidate();
             this.main.validate();
             this.main.repaint();
@@ -247,19 +255,6 @@ public class PlayPanel extends JPanel implements SwingerEventListener {
 
         Swinger.drawFullsizedImage(g, this, background);
         //g.drawImage(Swinger.getResource("header.png"), 0, 0, 1280, 50, this);
-        g.drawImage(Swinger.getResource("Connexion/Rectangle1.png"), 562, 91, Swinger.getResource("Connexion/Rectangle1.png").getWidth(), Swinger.getResource("Connexion/Rectangle1.png").getHeight(), this);
-        g.drawImage(Swinger.getResource("Connexion/Rectangle1-1.png"), 562, 241, Swinger.getResource("Connexion/Rectangle1-1.png").getWidth(), Swinger.getResource("Connexion/Rectangle1-1.png").getHeight(), this);
-        g.drawImage(Swinger.getResource("Connexion/Connexion.png"), 750, 134, Swinger.getResource("Connexion/Connexion.png").getWidth(), Swinger.getResource("Connexion/Connexion.png").getHeight(), this);
-        g.drawImage(Swinger.getResource("News/theme_logo.png"), 50, 31, Swinger.getResource("News/theme_logo.png").getWidth(), Swinger.getResource("News/theme_logo.png").getHeight(), this);
-        g.drawImage(Swinger.getResource("Connexion/Rectangle3.png"), 541, 168, Swinger.getResource("Connexion/Rectangle3.png").getWidth(), Swinger.getResource("Connexion/Rectangle3.png").getHeight(), this);
-        g.drawImage(Swinger.getResource("Connexion/Pseudo.png"), 628, 327, Swinger.getResource("Connexion/Pseudo.png").getWidth(), Swinger.getResource("Connexion/Pseudo.png").getHeight(), this);
-        g.drawImage(Swinger.getResource("Connexion/password.png"), 628, 398, Swinger.getResource("Connexion/password.png").getWidth(), Swinger.getResource("Connexion/password.png").getHeight(), this);
-        g.drawImage(Swinger.getResource("Connexion/user.png"), 578, 323, Swinger.getResource("Connexion/user.png").getWidth(), Swinger.getResource("Connexion/user.png").getHeight(), this);
-        g.drawImage(Swinger.getResource("Connexion/lock1.png"), 578, 394, Swinger.getResource("Connexion/lock1.png").getWidth(), Swinger.getResource("Connexion/lock1.png").getHeight(), this);
-        g.drawImage(Swinger.getResource("Connexion/locker_button.png"), 590, 403, Swinger.getResource("Connexion/locker_button.png").getWidth(), Swinger.getResource("Connexion/locker_button.png").getHeight(), this);
-        g.drawImage(Swinger.getResource("Connexion/Rectangle2.png"), 803, 323, Swinger.getResource("Connexion/Rectangle2.png").getWidth(), Swinger.getResource("Connexion/Rectangle2.png").getHeight(), this);
-        g.drawImage(Swinger.getResource("Connexion/Rectangle2.png"), 803, 396, Swinger.getResource("Connexion/Rectangle2.png").getWidth(), Swinger.getResource("Connexion/Rectangle2.png").getHeight(), this);
-
     }
 
     public SColoredBar getProgressBar() {
@@ -271,15 +266,12 @@ public class PlayPanel extends JPanel implements SwingerEventListener {
     }
 
     private void setFieldEnabled(boolean enabled) {
-        quitButton.setEnabled(enabled);
         passwordField.setEnabled(enabled);
         usernameField.setEnabled(enabled);
-        ramButton.setEnabled(enabled);
+        playButton.setEnabled(enabled);
     }
 
     public void setStatus(String p) {
         status.setText(p);
     }
-
-
 }

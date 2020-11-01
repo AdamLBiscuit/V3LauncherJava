@@ -6,11 +6,17 @@ import club.minnced.discord.rpc.DiscordRichPresence;
 import fr.adam.saofrancelauncher.panel.PlayPanel;
 import fr.adam.saofrancelauncher.panel.AccueilPanel;
 import fr.adam.saofrancelauncher.panel.OptionsPanel;
+import fr.adam.saofrancelauncher.panel.QuitPanel;
 import fr.adam.saofrancelauncher.utils.SAOFranceUtils;
 import fr.theshark34.swinger.Swinger;
+import fr.theshark34.swinger.animation.Animator;
+import fr.theshark34.swinger.animation.QueryLoopAction;
 import fr.theshark34.swinger.util.WindowMover;
 
 import javax.swing.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 
 public class Main extends JFrame {
 
@@ -18,6 +24,7 @@ public class Main extends JFrame {
     private static PlayPanel panel;
     private static AccueilPanel accueilPanel;
     private static OptionsPanel optionsPanel;
+    private static QuitPanel quitPanel;
 
 
     public Main() {
@@ -26,6 +33,8 @@ public class Main extends JFrame {
         this.setUndecorated(true);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setOption();
+        setQuit();
         setAccueil();
 
         WindowMover move = new WindowMover(this);
@@ -51,6 +60,9 @@ public class Main extends JFrame {
         if (!PlayPanel.ramFile.exists()) {
             try {
                 PlayPanel.ramFile.createNewFile();
+                FileWriter w = new FileWriter(new File(SAOFranceUtils.SAO_DIR, "ram.txt"));
+                w.write("2");
+                w.close();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -88,6 +100,8 @@ public class Main extends JFrame {
         return optionsPanel;
     }
 
+    public static QuitPanel getQuitPanel() { return quitPanel;}
+
     public void setPlay() {
         this.setContentPane(panel = new PlayPanel(this));
     }
@@ -96,7 +110,12 @@ public class Main extends JFrame {
         this.setContentPane(accueilPanel = new AccueilPanel(this));
     }
 
-    public void setOptionsPanel() {
+    public void setQuit(){
+        this.setContentPane(quitPanel = new QuitPanel(this));
+    }
+
+    public void setOption(){
         this.setContentPane(optionsPanel = new OptionsPanel(this));
     }
+
 }
