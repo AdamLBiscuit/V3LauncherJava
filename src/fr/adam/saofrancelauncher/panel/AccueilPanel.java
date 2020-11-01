@@ -21,12 +21,13 @@ import java.util.Scanner;
 public class AccueilPanel extends JPanel implements SwingerEventListener {
 
     public static File ramFile = new File(SAOFranceUtils.SAO_DIR, "ram.txt");
-    private final STexturedButton ramButton = new STexturedButton(Swinger.getResource("settings_button.png"), Swinger.getResource("settings_button_hover.png"), Swinger.getResource("settings_button.png"));
-    private final STexturedButton quitButton = new STexturedButton(Swinger.getResource("quit2.png"), Swinger.getResource("quit.png"), Swinger.getResource("quit2.png"));
-    private final STexturedButton homeButton = new STexturedButton(Swinger.getResource("menu.png"), Swinger.getResource("menu2.png"), Swinger.getResource("menu.png"));
-    private final STexturedButton playv3 = new STexturedButton(Swinger.getResource("v3normal.png"), Swinger.getResource("v3normal2.png"), Swinger.getResource("v3normal.png"));
-    private final STexturedButton optionPane = new STexturedButton(Swinger.getResource("options.png"), Swinger.getResource("options2.png"), Swinger.getResource("options.png"));
-    private final Image background = Swinger.getResource("backgroundaccueil.jpg");
+    //private final STexturedButton ramButton = new STexturedButton(Swinger.getResource("News/Option.png"), Swinger.getResource("News/Option.png"), Swinger.getResource("News/Option.png"));
+    private final STexturedButton quitButton = new STexturedButton(Swinger.getResource("News/deco.png"), Swinger.getResource("News/decoHold.png"), Swinger.getResource("News/deco.png"));
+    private final STexturedButton homeButton = new STexturedButton(Swinger.getResource("News/NewsHold.png"), Swinger.getResource("News/NewsHold.png"), Swinger.getResource("News/NewsHold.png"));
+    private final STexturedButton playv3 = new STexturedButton(Swinger.getResource("News/Play.png"), Swinger.getResource("News/PlayHold.png"), Swinger.getResource("News/Play.png"));
+    private final STexturedButton optionPane = new STexturedButton(Swinger.getResource("News/Option.png"), Swinger.getResource("News/OptionHold.png"), Swinger.getResource("News/Option.png"));
+    private final Image background = Swinger.getResource("News/wallpaper.png");
+    //private final Image background = Swinger.getResource("Nouveautes.png");
     private final RamSelector ram = new RamSelector(ramFile);
     private final JTextArea news;
     private final JLabel newsTitle;
@@ -46,9 +47,9 @@ public class AccueilPanel extends JPanel implements SwingerEventListener {
         news.setWrapStyleWord(false);
 
         news.setEditable(false);
-        news.setFont(new Font("sansserif", Font.BOLD, 22));
-        news.setForeground(Color.lightGray);
-        news.setBounds(35, 298, 370, 395);
+        news.setFont(new Font("sansserif", Font.BOLD, 18));
+        news.setForeground(Color.DARK_GRAY);
+        news.setBounds(872, 320, 200, 300);
         news.setOpaque(false);
 
         news.setVisible(true);
@@ -56,37 +57,34 @@ public class AccueilPanel extends JPanel implements SwingerEventListener {
 
         newsTitle = new JLabel(newsTitle());
 
-        newsTitle.setFont(new Font("sansserif", Font.BOLD, 30));
-        newsTitle.setForeground(Color.lightGray);
-        newsTitle.setBounds(35, 228, 370, 40);
-        newsTitle.setAlignmentX(JLabel.CENTER);
+        newsTitle.setFont(new Font("sansserif", Font.BOLD, 25));
+        newsTitle.setForeground(Color.DARK_GRAY);
+        newsTitle.setBounds(872, 278, 200, 40);
         newsTitle.setOpaque(false);
-        newsTitle.setHorizontalAlignment(JLabel.CENTER);
 
         newsTitle.setVisible(true);
         add(newsTitle);
 
         setLayout(null);
 
+        /*ramButton.addEventListener(this);
+        ramButton.setBounds(1167, 97, Swinger.getResource("News/Option.png").getWidth(), Swinger.getResource("News/Option.png").getHeight());
+        add(ramButton);*/
+
         quitButton.addEventListener(this);
-        quitButton.setBounds(1230, 660, 51, 51);
+        quitButton.setBounds(489, 231, Swinger.getResource("News/deco.png").getWidth(), Swinger.getResource("News/deco.png").getHeight());
         add(quitButton);
 
-
-        ramButton.addEventListener(this);
-        ramButton.setBounds(1175, 660, 55, 55);
-        add(ramButton);
-
         homeButton.addEventListener(this);
-        homeButton.setBounds(10, 9, 187, 31);
+        homeButton.setBounds(489, 97, Swinger.getResource("News/NewsHold.png").getWidth(), Swinger.getResource("News/NewsHold.png").getHeight());
         add(homeButton);
 
         playv3.addEventListener(this);
-        playv3.setBounds(550, 9, 187, 31);
+        playv3.setBounds(489, 164, Swinger.getResource("News/Play.png").getWidth(), Swinger.getResource("News/Play.png").getHeight());
         add(playv3);
 
         optionPane.addEventListener(this);
-        optionPane.setBounds(1087, 9, 187, 31);
+        optionPane.setBounds(1167, 97, Swinger.getResource("News/Option.png").getWidth(), Swinger.getResource("News/Option.png").getHeight());
         add(optionPane);
 
         URL img = getClass().getResource("/fr/adam/saofrancelauncher/ressources/loader.gif");
@@ -106,7 +104,7 @@ public class AccueilPanel extends JPanel implements SwingerEventListener {
         news.setVisible(enable);
         newsTitle.setVisible(enable);
         quitButton.setVisible(enable);
-        ramButton.setVisible(enable);
+        //ramButton.setVisible(enable);
         homeButton.setVisible(enable);
         playv3.setVisible(enable);
         optionPane.setVisible(enable);
@@ -117,10 +115,10 @@ public class AccueilPanel extends JPanel implements SwingerEventListener {
             System.exit(0);
         }
 
-        if (e.getSource() == ramButton) {
-            ram.display();
-            ram.save();
-        }
+        //if (e.getSource() == ramButton) {
+        //    ram.display();
+        //    ram.save();
+        //}
 
         if (e.getSource() == homeButton) {
             this.main.setAccueil();
@@ -168,11 +166,18 @@ public class AccueilPanel extends JPanel implements SwingerEventListener {
                 Composite oldComposite = g2d.getComposite();
                 AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha);
                 g2d.setComposite(ac);
-                g.drawImage(Swinger.getResource("header.png"), 0, 0, 1280, 50, this);
+                //g.drawImage(Swinger.getResource("header.png"), 0, 0, 1280, 50, this);
+                //g.drawImage(Swinger.getResource("News/TITRE.png"), 872, 279, Swinger.getResource("News/TITRE.png").getWidth(), Swinger.getResource("News/TITRE.png").getHeight(), this);
+                g.drawImage(Swinger.getResource("News/Rectangle1.png"), 562, 91, Swinger.getResource("News/Rectangle1.png").getWidth(), Swinger.getResource("News/Rectangle1.png").getHeight(), this);
+                g.drawImage(Swinger.getResource("News/Rectangle1-1.png"), 562, 241, Swinger.getResource("News/Rectangle1-1.png").getWidth(), Swinger.getResource("News/Rectangle1-1.png").getHeight(), this);
+                g.drawImage(Swinger.getResource("News/Nouveautes.png"), 747, 136, Swinger.getResource("News/Nouveautes.png").getWidth(), Swinger.getResource("News/Nouveautes.png").getHeight(), this);
+                g.drawImage(Swinger.getResource("News/theme_logo.png"), 50, 31, Swinger.getResource("News/theme_logo.png").getWidth(), Swinger.getResource("News/theme_logo.png").getHeight(), this);
+                g.drawImage(Swinger.getResource("Connexion/Rectangle3.png"), 541, 102, Swinger.getResource("Connexion/Rectangle3.png").getWidth(), Swinger.getResource("Connexion/Rectangle3.png").getHeight(), this);
+
 
                 g2d.drawImage(
                         img,
-                        600, 300, 600, 337, this
+                        582, 280, 283, 159, this
                 );
 
                 g2d.setComposite(oldComposite);
