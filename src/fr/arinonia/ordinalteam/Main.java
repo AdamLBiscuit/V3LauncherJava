@@ -17,6 +17,7 @@ import javax.swing.*;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 
 public class Main extends JFrame {
 
@@ -25,6 +26,7 @@ public class Main extends JFrame {
     private static AccueilPanel accueilPanel;
     private static OptionsPanel optionsPanel;
     private static QuitPanel quitPanel;
+    public static File checkbox = new File(SAOFranceUtils.SAO_DIR, "checkbox.txt");
 
 
     public Main() {
@@ -64,6 +66,14 @@ public class Main extends JFrame {
                 w.write("2");
                 w.close();
             } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (!checkbox.exists()){
+            try {
+                checkbox.createNewFile();
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }

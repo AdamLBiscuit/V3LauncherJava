@@ -1,5 +1,6 @@
 package fr.adam.saofrancelauncher.panel;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import fr.adam.saofrancelauncher.utils.SAOFranceUtils;
 import fr.arinonia.ordinalteam.Main;
 import fr.litarvan.openauth.AuthenticationException;
@@ -14,8 +15,10 @@ import fr.theshark34.swinger.textured.STexturedButton;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
+import java.io.*;
 import java.net.URI;
+
+import static fr.adam.saofrancelauncher.utils.SAOFranceUtils.SAO_DIR;
 
 public class PlayPanel extends JPanel implements SwingerEventListener {
 
@@ -29,7 +32,6 @@ public class PlayPanel extends JPanel implements SwingerEventListener {
     private final STexturedButton discordButton = new STexturedButton(Swinger.getResource("discord.png"), Swinger.getResource("discord.png"), Swinger.getResource("discord.png"));
     private final STexturedButton ramButton = new STexturedButton(Swinger.getResource("settings_button.png"), Swinger.getResource("settings_button_hover.png"), Swinger.getResource("settings_button.png"));
     private final STexturedButton playButton = new STexturedButton(Swinger.getResource("Connexion/rond.png"), Swinger.getResource("Connexion/rond.png"), Swinger.getResource("Connexion/rond.png"));
-    private final STexturedButton playButton2 = new STexturedButton(Swinger.getResource("jouer1lite.png"), Swinger.getResource("jouer2lite.png"), Swinger.getResource("jouer1lite.png"));
 
     private final STexturedButton quitButton = new STexturedButton(Swinger.getResource("News/deco.png"), Swinger.getResource("News/decoHold.png"), Swinger.getResource("News/deco.png"));
     private final STexturedButton homeButton = new STexturedButton(Swinger.getResource("Connexion/News.png"), Swinger.getResource("News/NewsHold.png"), Swinger.getResource("Connexion/News.png"));
@@ -40,6 +42,7 @@ public class PlayPanel extends JPanel implements SwingerEventListener {
     private final SColoredBar progressBar = new SColoredBar(new Color(255, 0, 0, 85));
     private final RamSelector ram = new RamSelector(ramFile);
     private final JLabel status = new JLabel("En attente d'une action");
+    private final Checkbox checkbox = new Checkbox();
     public Main main;
 
 
@@ -47,6 +50,10 @@ public class PlayPanel extends JPanel implements SwingerEventListener {
         this.main = main;
 
         setLayout(null);
+
+        checkbox.setBounds(858, 400, 10, 10);
+        checkbox.setState(getCheckbox());
+        add(checkbox);
 
         usernameField.setFont(new Font("sansserif", Font.BOLD, 18));
         usernameField.setForeground(new Color(105, 105, 105));
@@ -70,13 +77,9 @@ public class PlayPanel extends JPanel implements SwingerEventListener {
         ramButton.setBounds(1175, 660, 55, 55);
         add(ramButton);
 
-        playButton2.addEventListener(this);
-        playButton2.setBounds(240, 540, 187, 31);
-        add(playButton2);
-
         progressBar.setBounds(0, 705, 1280, 15);
         add(progressBar);
-        progressBar.setVisible(true);
+        progressBar.setVisible(false);
 
         status.setFont(new Font("sansserif", Font.BOLD, 22));
         status.setForeground(Color.GRAY);
@@ -133,94 +136,112 @@ public class PlayPanel extends JPanel implements SwingerEventListener {
         }
 
         if (e.getSource() == playButton) {
-            playButton.setEnabled(false);
-            Thread thread = new Thread() {
-                public void run() {
-                    setFieldEnabled(false);
-                    try {
-                        SAOFranceUtils.auth(usernameField.getText(), passwordField.getText());
-                    } catch (AuthenticationException e2) {
-                        e2.printStackTrace();
-                        setFieldEnabled(true);
-                        JOptionPane.showMessageDialog(null, "Une erreur est survenue durant l'auth à mojang", "Erreur", 0, null);
-                        playButton.setEnabled(true);
-                        return;
+
+            if(checkbox.getState() == false){
+                FileWriter w = null;
+                try {
+                    w = new FileWriter(new File(SAOFranceUtils.SAO_DIR, "checkbox.txt"));
+                    w.write("false");
+                    w.close();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+                playButton.setEnabled(false);
+                Thread thread = new Thread() {
+                    public void run() {
+                        setFieldEnabled(false);
+                        try {
+                            SAOFranceUtils.auth(usernameField.getText(), passwordField.getText());
+                        } catch (AuthenticationException e2) {
+                            e2.printStackTrace();
+                            setFieldEnabled(true);
+                            JOptionPane.showMessageDialog(null, "Une erreur est survenue durant l'auth à mojang", "Erreur", 0, null);
+                            playButton.setEnabled(true);
+                            return;
+                        }
+
+                        if(BarAPI.getNumberOfFileToDownload() !=0) {
+                            setStatus("download");
+                        } else {
+                            status.setText("Vérifications des fichers en cours...");
+                        }
+                        ram.save();
+                        saver.set("username", usernameField.getText());
+                        saver.set("password", passwordField.getText());
+
+                        try {
+                            SAOFranceUtils.update();
+                        } catch (Exception e1) {
+                            e1.printStackTrace();
+                            setFieldEnabled(true);
+                            JOptionPane.showMessageDialog(null, "Une erreur est survenue durant l'update", "Erreur", 0, null);
+                            return;
+                        }
+
+                        try {
+                            SAOFranceUtils.launch(usernameField.getText());
+                        } catch (Exception e1) {
+                            e1.printStackTrace();
+                            setFieldEnabled(true);
+                            JOptionPane.showMessageDialog(null, "Une erreur est survenue durant le lancement du jeu", "Erreur", 0, null);
+                            return;
+                        }
                     }
 
-                    if(BarAPI.getNumberOfFileToDownload() !=0) {
-                        setStatus("download");
-                    } else {
+                };
+                thread.start();
+            }
+            if(checkbox.getState() == true) {
+                FileWriter w = null;
+                try {
+                    w = new FileWriter(new File(SAOFranceUtils.SAO_DIR, "checkbox.txt"));
+                    w.write("true");
+                    w.close();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+
+                playButton.setEnabled(false);
+                Thread thread = new Thread() {
+                    public void run() {
+                        setFieldEnabled(false);
+                        try {
+                            SAOFranceUtils.auth(usernameField.getText(), passwordField.getText());
+                        } catch (AuthenticationException e2) {
+                            e2.printStackTrace();
+                            setFieldEnabled(true);
+                            JOptionPane.showMessageDialog(null, "Une erreur est survenue durant l'auth à mojang", "Erreur", 0, null);
+                            playButton.setEnabled(true);
+                            return;
+                        }
+
                         status.setText("Vérifications des fichers en cours...");
-                    }
-                    ram.save();
-                    saver.set("username", usernameField.getText());
-                    saver.set("password", passwordField.getText());
+                        ram.save();
+                        saver.set("username", usernameField.getText());
+                        saver.set("password", passwordField.getText());
 
-                    try {
-                        SAOFranceUtils.update();
-                    } catch (Exception e1) {
-                        e1.printStackTrace();
-                        setFieldEnabled(true);
-                        JOptionPane.showMessageDialog(null, "Une erreur est survenue durant l'update", "Erreur", 0, null);
-                        return;
-                    }
+                        try {
+                            SAOFranceUtils.update2();
+                        } catch (Exception e1) {
+                            e1.printStackTrace();
+                            setFieldEnabled(true);
+                            JOptionPane.showMessageDialog(null, "Une erreur est survenue durant l'update", "Erreur", 0, null);
+                            return;
+                        }
 
-                    try {
-                        SAOFranceUtils.launch(usernameField.getText());
-                    } catch (Exception e1) {
-                        e1.printStackTrace();
-                        setFieldEnabled(true);
-                        JOptionPane.showMessageDialog(null, "Une erreur est survenue durant le lancement du jeu", "Erreur", 0, null);
-                        return;
-                    }
-                }
-
-            };
-            thread.start();
-        }
-
-        if (e.getSource() == playButton2) {
-            playButton.setEnabled(false);
-            playButton2.setEnabled(false);
-            Thread thread = new Thread() {
-                public void run() {
-                    setFieldEnabled(false);
-                    try {
-                        SAOFranceUtils.auth(usernameField.getText(), passwordField.getText());
-                    } catch (AuthenticationException e2) {
-                        e2.printStackTrace();
-                        setFieldEnabled(true);
-                        JOptionPane.showMessageDialog(null, "Une erreur est survenue durant l'auth à mojang", "Erreur", 0, null);
-                        playButton.setEnabled(true);
-                        return;
+                        try {
+                            SAOFranceUtils.launch2(usernameField.getText());
+                        } catch (Exception e1) {
+                            e1.printStackTrace();
+                            setFieldEnabled(true);
+                            JOptionPane.showMessageDialog(null, "Une erreur est survenue durant le lancement du jeu", "Erreur", 0, null);
+                            return;
+                        }
                     }
 
-                    status.setText("Vérifications des fichers en cours...");
-                    ram.save();
-                    saver.set("username", usernameField.getText());
-                    saver.set("password", passwordField.getText());
-
-                    try {
-                        SAOFranceUtils.update2();
-                    } catch (Exception e1) {
-                        e1.printStackTrace();
-                        setFieldEnabled(true);
-                        JOptionPane.showMessageDialog(null, "Une erreur est survenue durant l'update", "Erreur", 0, null);
-                        return;
-                    }
-
-                    try {
-                        SAOFranceUtils.launch2(usernameField.getText());
-                    } catch (Exception e1) {
-                        e1.printStackTrace();
-                        setFieldEnabled(true);
-                        JOptionPane.showMessageDialog(null, "Une erreur est survenue durant le lancement du jeu", "Erreur", 0, null);
-                        return;
-                    }
-                }
-
-            };
-            thread.start();
+                };
+                thread.start();
+            }
         }
 
         if (e.getSource() == quitButton ||e.getSource() == croix) {
@@ -273,5 +294,24 @@ public class PlayPanel extends JPanel implements SwingerEventListener {
 
     public void setStatus(String p) {
         status.setText(p);
+    }
+
+    public static Boolean getCheckbox() {
+        int ram = 0;
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(new File(SAO_DIR, "checkbox.txt")));
+            String line;
+            line = br.readLine();
+            br.close();
+
+            if (line.equals("false")){
+                return false;
+            }else{
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }
