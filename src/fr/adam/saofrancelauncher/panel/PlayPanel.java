@@ -25,7 +25,6 @@ public class PlayPanel extends JPanel implements SwingerEventListener {
     public static File saverFile = new File(SAOFranceUtils.SAO_DIR, "launcher.properties");
     public static Saver saver = new Saver(saverFile);
     public static File ramFile = new File(SAOFranceUtils.SAO_DIR, "ram.txt");
-    //private final Image background = Swinger.getResource("connexion.png");
     private final Image background = Swinger.getResource("Connexion/backgroundLogin.png");
     private final JTextField usernameField = new JTextField(saver.get("username"));
     private final JPasswordField passwordField = new JPasswordField(saver.get("password"));

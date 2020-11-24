@@ -8,7 +8,6 @@ import fr.theshark34.swinger.colored.SColoredBar;
 import fr.theshark34.swinger.event.SwingerEvent;
 import fr.theshark34.swinger.event.SwingerEventListener;
 import fr.theshark34.swinger.textured.STexturedButton;
-import org.apache.commons.io.FileUtils;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -127,14 +126,6 @@ public class OptionsPanel extends JPanel implements SwingerEventListener {
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
-        }
-        if (e.getSource() == clearLite) {
-            File file = new File(SAO_INFOS2.getGameDir().getAbsolutePath());
-            try {
-                FileUtils.deleteDirectory(file);
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            };
         }
     }
 

@@ -1,8 +1,5 @@
 package fr.arinonia.ordinalteam;
 
-import club.minnced.discord.rpc.DiscordEventHandlers;
-import club.minnced.discord.rpc.DiscordRPC;
-import club.minnced.discord.rpc.DiscordRichPresence;
 import fr.adam.saofrancelauncher.panel.PlayPanel;
 import fr.adam.saofrancelauncher.panel.AccueilPanel;
 import fr.adam.saofrancelauncher.panel.OptionsPanel;
