@@ -10,8 +10,11 @@ import fr.theshark34.swinger.colored.SColoredBar;
 import fr.theshark34.swinger.event.SwingerEvent;
 import fr.theshark34.swinger.event.SwingerEventListener;
 import fr.theshark34.swinger.textured.STexturedButton;
+import org.fit.cssbox.demo.SimpleBrowser;
+import org.fit.cssbox.layout.CSSDecoder;
 
 import javax.swing.*;
+import javax.swing.text.html.CSS;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;

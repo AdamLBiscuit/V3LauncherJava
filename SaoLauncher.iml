@@ -18,41 +18,58 @@
     <orderEntry type="jdk" jdkName="JavaSE-1.8" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
-      <library name="s-update-3.1.0-BETA.jar">
+      <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/s-update-3.1.0-BETA.jar!/" />
+          <root url="jar://$MODULE_DIR$/libs/gson-2.3.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="swinger-1.0.0-BETA.jar">
+      <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/swinger-1.0.0-BETA.jar!/" />
+          <root url="jar://$MODULE_DIR$/libs/openauth-1.0.4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="openauth-1.0.4.jar">
+      <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/openauth-1.0.4.jar!/" />
+          <root url="jar://$MODULE_DIR$/libs/openlauncherlib-3.0.4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="openlauncherlib-3.0.4.jar">
+      <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/openlauncherlib-3.0.4.jar!/" />
+          <root url="jar://$MODULE_DIR$/libs/s-update-3.1.0-BETA.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="commons-io-2.8.0" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/swinger-1.0.0-BETA.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/cssbox-4.17.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>

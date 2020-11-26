@@ -35,6 +35,7 @@ public class SAOFranceUtils {
     public static void auth(String username, String password) throws AuthenticationException {
         Authenticator authenticator = new Authenticator(Authenticator.MOJANG_AUTH_URL, AuthPoints.NORMAL_AUTH_POINTS);
         AuthResponse response = authenticator.authenticate(AuthAgent.MINECRAFT, username, password, "");
+        System.out.println(response.getSelectedProfile().getName() + response.getAccessToken());
         authInfos = new AuthInfos(response.getSelectedProfile().getName(), response.getAccessToken(), response.getSelectedProfile().getId());
     }
 
